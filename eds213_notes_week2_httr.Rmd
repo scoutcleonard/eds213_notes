@@ -1,0 +1,23 @@
+---
+title: "Note 10/4/2021"
+author: "Scout Leonard"
+date: "10/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(purrr)
+library(httr)
+```
+
+```{r}
+r <- GET("https://api.github.com/users/brunj7/repos")
+
+my_repo_list <- content(r)
+```
+
