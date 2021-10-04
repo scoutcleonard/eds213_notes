@@ -16,8 +16,29 @@ library(httr)
 ```
 
 ```{r}
-r <- GET("https://api.github.com/users/brunj7/repos")
+r <- GET("https://api.github.com/users/brunj7/repos") #querying the github REST api
 
-my_repo_list <- content(r)
+my_repo_list <- content(r) #extract the content from the response 
+
+my_repos <- map_chr(my_repo_list, "full_name") #character vector of all the datasets in the repository 
+
+my_repo_list[[1]] #extract what we want from the list. moves from list 
+
+my_repos
+
+my_repos[1:2]
+```
+
+## Practice
+
+List all your repos! 
+
+```{r}
+r2 <- GET("https://api.github.com/users/scoutcleonard/repos")
+
+my_repo_list2 <- content(r2)
+
+my_repo_list2
+
 ```
 
