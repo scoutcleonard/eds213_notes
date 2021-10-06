@@ -79,9 +79,5 @@ alaska_english <- household_languages %>%
   mutate(percent_english_only = speak_only_english/total) %>% 
   group_by(Year) 
 
-
-names(alaska_english)
-
-
 ```
 
