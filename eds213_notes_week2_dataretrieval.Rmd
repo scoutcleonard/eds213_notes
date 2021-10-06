@@ -1,0 +1,87 @@
+---
+title: "eds213_notes_week2_dataretrieval"
+author: "Scout Leonard"
+date: "10/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dataRetrieval)
+library(tidyverse)
+library(metajam)
+library(here)
+```
+## Exercise 1
+
+```{r}
+siteNumber <- "11118500"
+paramaterCd <- "00060"
+startDate <- "2019-10-01"
+endDate <- "2020-10-05"
+
+discharge <- readNWISdv(siteNumber, paramaterCd, startDate, endDate)
+
+
+#there is a function to retrieve the metadata 
+```
+
+```{r}
+names(discharge)
+
+renamed_discharge <- renameNWISColumns(discharge)
+```
+
+```{r}
+flow_over_time <- ggplot(data = renamed_discharge, aes(x = Date, y = Flow)) +
+  geom_line()
+
+flow_over_time
+```
+```{r}
+siteNumber <- "11118500"
+paramaterCd <- "00060"
+startDate1 <- ""
+endDate <- "2020-10-05"
+
+find_start_date <- readNWISdv(siteNumber, paramaterCd, startDate1, endDate)
+
+
+#by using no start date, we can find the date on which the first data was recorded
+```
+
+## Exercise 2
+
+**Note: this step should be set to eval = false you you don't download the data every time you run the code**
+```{r, eval = FALSE}
+#set inputs
+data_obj <- "https://cn.dataone.org/cn/v2/resolve/urn:uuid:7fc6f6db-c5ea-426a-a743-1f2edafb43b8"
+
+path <- "~/Documents/MEDS/term_2/eds213/class_notes/eds213_notes"
+
+#download data and metadata
+download_d1_data(data_obj, path)
+```
+
+```{r}
+alaska_data <- read_d1_files("~/Documents/MEDS/term_2/eds213/class_notes/eds213_notes/doi_10.5063_F1CJ8BPH__household_language__csv")
+```
+```{r}
+household_languages <- read.csv(here("doi_10.5063_F1CJ8BPH__household_language__csv", "household_language.csv"))
+```
+
+```{r}
+alaska_english <- household_languages %>% 
+  filter(Year >= 2009 & Year <= 2015) %>% 
+  mutate(percent_english_only = speak_only_english/total) %>% 
+  group_by(Year) 
+
+
+names(alaska_english)
+
+
+```
+
